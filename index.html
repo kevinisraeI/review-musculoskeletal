@@ -227,6 +227,10 @@ details.panel summary{cursor:pointer;font-weight:700}
 .lightbox{background:rgba(5,9,13,.86);cursor:zoom-out;overflow:auto;place-items:center}
 .lightbox img{max-width:min(1400px,100%);max-height:92vh;border-radius:8px;background:#fff;display:block}
 .lightbox .close{position:fixed;top:12px;right:12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;min-height:40px;padding:6px 12px;font-weight:700}
+.xl{margin-top:14px}
+.xlink{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 14px;border:1px solid var(--lfb);border-radius:999px;color:var(--lfb);font-weight:700;font-size:15px;text-decoration:none;background:var(--lfb-soft)}
+.xlink:hover{filter:brightness(1.05)}
+a.btn{text-decoration:none;color:inherit}
 </style>
 </head>
 <body>
@@ -246,6 +250,7 @@ const app = document.getElementById('app');
 
 /* ---------- storage ---------- */
 const SKEY = 'musk-bank-v1';
+const MATERI = "materi/";
 let storageOK = true;
 function def(){ return { p:{}, sim:null, hist:[], fc:{} }; }
 function load(){
@@ -341,7 +346,8 @@ function renderHome(){
   let h = '';
   h += '<header class="hero"><p class="eyebrow">Modul Muskuloskeletal · FK UISU</p><h1>Bank Soal Muskuloskeletal</h1>' +
        '<p class="lede">' + Q.length + ' soal dengan kunci yang sudah dicocokkan ke 16 PPT kuliah. Setiap soal punya pembahasan, alasan opsi lain salah, dan sumber slidenya.</p>' +
-       '<p class="credit">Disusun oleh <b>Jory Ganteng</b></p>' + TRACE + '</header>';
+       '<p class="credit">Disusun oleh <b>Jory Ganteng</b></p>' + TRACE +
+       '<p class="xl"><a class="xlink" href="' + MATERI + '">Materi Muskuloskeletal: ringkasan per topik &amp; hafalan →</a></p></header>';
   h += '<section class="stats" aria-label="Ringkasan progres">' +
        stat(all.ans + '<small class="muted" style="font-size:15px"> / ' + Q.length + '</small>', 'soal sudah dijawab') +
        stat(all.ans ? pct(all.ok, all.ans) + '%' : '–', 'akurasi jawaban terakhir') +
@@ -371,7 +377,8 @@ function renderHome(){
          '<i class="ok" style="width:' + (s.ok / s.total * 100) + '%"></i><i class="bad" style="width:' + ((s.ans - s.ok) / s.total * 100) + '%"></i></div>' +
          '<div class="meta">' + s.ans + ' dari ' + s.total + ' soal dijawab · ' + nc + ' kartu</div>' +
          '<div class="row"><button class="btn sm primary" data-act="topic-start" data-topic="' + code + '">Latihan</button>' +
-         '<button class="btn sm" data-act="fc-open" data-topic="' + code + '">Kartu</button></div></article>';
+         '<button class="btn sm" data-act="fc-open" data-topic="' + code + '">Kartu</button>' +
+         '<a class="btn sm ghost" href="' + MATERI + '#topik-' + code + '">Materi</a></div></article>';
   }
   h += '</div></section>';
   if (store.hist.length){
@@ -386,6 +393,7 @@ function renderHome(){
   h += '<footer class="foot"><p>Kunci jawaban mengikuti PPT dosen. Bila PPT dan buku teks berbeda, versi buku teks dicatat di pembahasan. Soal yang tidak dibahas di PPT (misalnya osteomalasia dan rakitis, SLE, sebagian tumor tulang, stadium AJCC, dan pelemas otot nondepolarisasi) dijawab dari buku standar (IPD, Robbins, Apley, Katzung, Nelson). Soal yang kuncinya bisa diperdebatkan ditandai "Soal ambigu" dan diberi catatan.</p>' +
        (storageOK ? '<p>Progres hanya tersimpan di browser ini. Kalau membuka dari perangkat lain, progres mulai dari nol.</p>' : '<p><b>Browser ini tidak mengizinkan penyimpanan.</b> Progres hilang saat halaman ditutup.</p>') +
        '<div><button class="btn sm ghost" data-act="reset">Hapus semua progres</button></div>' +
+       '<p>Butuh materinya dulu? Buka <a href="' + MATERI + '">Materi Muskuloskeletal</a>: ringkasan 11 topik, gambar interaktif, dan hafalan.</p>' +
        '<p class="credit">Disusun oleh <b>Jory Ganteng</b> untuk teman-teman seangkatan. Semangat ujiannya!</p></footer>';
   app.innerHTML = h;
   function stat(v, l){ return '<div class="stat"><b>' + v + '</b><span>' + l + '</span></div>'; }
@@ -695,10 +703,20 @@ document.addEventListener('keydown', e => {
 });
 
 /* ---------- boot ---------- */
+function deepLink(){
+  const m = /^#(latihan|kartu)-([a-z]+)$/.exec(location.hash || '');
+  if (!m || !TNAME[m[2]]) return false;
+  try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
+  const c = m[2];
+  if (m[1] === 'latihan') startPractice('Latihan · ' + TNAME[c], Q.filter(q => q.t === c).map(q => q.n), 'home');
+  else go({ view: 'flash', topic: c, i: 0, flip: false, hideKnown: false, order: null, rnd: ui.rnd });
+  return true;
+}
+window.addEventListener('hashchange', deepLink);
 function start(snap){
   if (snap && snap.view && snap.view !== 'sim') ui = snap;
   else if (snap && snap.view === 'sim' && store.sim) ui = snap;
-  render();
+  if (!deepLink()) render();
 }
 try { window.claude && window.claude.hot && window.claude.hot.snapshot(() => ui); } catch(e){}
 if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(start);

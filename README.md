@@ -11,7 +11,11 @@ Isi:
 
 Urutan pilihan A–E diacak setiap sesi, jadi yang dihafal isinya, bukan hurufnya.
 
-Buka websitenya: https://kevinisraei.github.io/review-musculoskeletal/
+Ada juga halaman **Materi Muskuloskeletal** di `/materi/`: ringkasan 11 topik dari 16 PPT kuliah, dengan kotak "Intinya", gambar interaktif (sarkomer, siklus cross bridge, frekuensi rangsang, T-score, IMT, Kellgren–Lawrence, ACR/EULAR 2010, Gustilo–Anderson, Salter–Harris), jembatan keledai, jebakan soal, dan tab Hafalan. Setiap topik punya tombol yang langsung membuka latihan soal dan kartu topik itu di bank soal. Bagian yang tidak ada di PPT ditandai "buku".
+
+Buka websitenya:
+- Bank soal: https://kevinisraei.github.io/review-musculoskeletal/
+- Materi: https://kevinisraei.github.io/review-musculoskeletal/materi/
 
 Progres belajar tersimpan di browser masing-masing perangkat.
 
