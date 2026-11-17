@@ -1,6 +1,6 @@
 # Bank Soal Muskuloskeletal
 
-Bank soal latihan Modul Muskuloskeletal FK UISU: 282 soal unik dengan kunci yang dicocokkan ke 16 PPT kuliah. Setiap soal dilengkapi pembahasan, alasan opsi lain salah, sumber slide, dan catatan untuk soal ambigu atau soal yang versi PPT-nya berbeda dengan buku teks.
+Bank soal latihan Modul Muskuloskeletal FK UISU: 315 soal unik (termasuk 33 soal kasus) dengan kunci yang dicocokkan ke 16 PPT kuliah. Setiap soal dilengkapi pembahasan, alasan opsi lain salah, sumber slide, dan catatan untuk soal ambigu atau soal yang versi PPT-nya berbeda dengan buku teks.
 
 Isi:
 - **Latihan per topik**: 11 topik, dari anatomi sampai farmakologi muskuloskeletal.
