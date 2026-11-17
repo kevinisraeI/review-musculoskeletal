@@ -6,6 +6,7 @@ Isi:
 - **Latihan per topik**: 11 topik, dari anatomi sampai farmakologi muskuloskeletal.
 - **Soal acak**: 10, 20, 50, atau semua soal, dengan pembahasan langsung setelah menjawab.
 - **Simulasi ujian**: 100 soal dalam 120 menit (2 jam), diambil sesuai proporsi topik, dengan timer, navigasi nomor soal, dan tanda ragu.
+- **Soal yang belum dijawab**: hanya soal yang belum pernah dijawab benar (belum dikerjakan, salah, atau ditandai ragu), jadi tidak mengulang soal yang sama terus. Soal yang sudah dijawab benar, dari latihan maupun simulasi, tidak muncul lagi.
 - **Ulang yang salah & ragu**: mengerjakan ulang soal yang pernah salah atau ditandai ragu.
 - **Flashcard**: 251 kartu fakta penting dari PPT, dengan tanda "sudah hafal".
 

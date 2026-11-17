@@ -83,7 +83,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visi
 .modes{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media (max-width:620px){.modes{grid-template-columns:1fr}}
 .mode{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
-.mode.lead{border-color:var(--lfb);border-width:2px}
+.mode.lead{border-color:var(--lfb);border-width:2px;grid-column:1/-1}
 .mode p{color:var(--muted);font-size:15px}
 .mode .tag{align-self:flex-start}
 .mode .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto}
@@ -305,6 +305,8 @@ function stats(ids){
   for (const n of ids){ const p = store.p[n]; if (p && p.a){ ans++; if (p.ok) ok++; } }
   return { ans, ok, total: ids.length };
 }
+function unansweredIds(){ return Q.filter(q => { const p = store.p[q.n]; return !p || !p.a || !p.ok || p.r; }).map(q => q.n); }
+let unrN = 20;
 function reviewIds(){ return Q.filter(q => { const p = store.p[q.n]; return p && ((p.a && !p.ok) || p.r); }).map(q => q.n); }
 function toast(msg){
   const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t);
@@ -341,6 +343,7 @@ function renderHome(){
   const flags = Q.filter(q => isFlag(q.n)).length;
   const wrong = Q.filter(q => store.p[q.n] && store.p[q.n].a && !store.p[q.n].ok).length;
   const rv = reviewIds().length;
+  const un = unansweredIds().length;
   const known = Object.keys(store.fc).length;
   const sim = store.sim;
   const simLeft = sim ? sim.deadline - Date.now() : 0;
@@ -362,6 +365,10 @@ function renderHome(){
   h += '<article class="mode"><span class="tag">Semua topik</span><h3>Soal acak</h3><p>Campuran soal dari ' + TOPICS.length + ' topik. Pembahasan langsung muncul setelah menjawab.</p><div class="row">' +
        '<div class="seg" role="group" aria-label="Jumlah soal">' + [10, 20, 50, 0].map(k => '<button data-rnd="' + k + '" aria-pressed="' + (ui.rnd === k) + '">' + (k || 'Semua') + '</button>').join('') + '</div>' +
        '<button class="btn primary" data-act="rnd-start">Mulai</button></div></article>';
+  h += '<article class="mode"><span class="tag">' + (un ? un + ' soal tersisa' : 'Tuntas') + '</span><h3>Soal yang belum dijawab</h3><p>Soal yang belum pernah kamu jawab benar: belum dikerjakan, salah, atau ditandai ragu. Soal yang sudah dijawab benar tidak muncul lagi.</p><div class="row">' +
+       (un ? '<div class="seg" role="group" aria-label="Jumlah soal belum dijawab">' + [10, 20, 50, 0].map(k => '<button data-unr="' + k + '" aria-pressed="' + (unrN === k) + '">' + (k || 'Semua') + '</button>').join('') + '</div>' +
+             '<button class="btn primary" data-act="unr-start">Mulai</button>'
+           : '<span class="muted" style="font-size:15px">Semua soal sudah kamu jawab benar.</span>') + '</div></article>';
   h += '<article class="mode"><span class="tag">' + rv + ' soal</span><h3>Ulang yang salah &amp; ragu</h3><p>Soal yang jawaban terakhirnya salah atau yang kamu tandai ragu.</p><div class="row">' +
        (rv ? '<button class="btn primary" data-act="rev-start">Ulangi ' + rv + ' soal</button>' : '<span class="muted" style="font-size:15px">Belum ada soal salah atau ragu.</span>') + '</div></article>';
   h += '<article class="mode"><span class="tag">' + CARDS.length + ' kartu · ' + known + ' hafal</span><h3>Flashcard</h3><p>Fakta penting dari PPT, dikelompokkan per topik. Ketuk kartu untuk membaliknya.</p><div class="row">' +
@@ -635,6 +642,7 @@ function render(){
 app.addEventListener('click', e => {
   const t = e.target.closest('button, input'); if (!t || t.disabled) return;
   if (t.dataset.rnd !== undefined){ ui.rnd = +t.dataset.rnd; render(); return; }
+  if (t.dataset.unr !== undefined){ unrN = +t.dataset.unr; render(); return; }
   if (t.dataset.opt){
     if (ui.view === 'practice') answerPractice(t.dataset.opt);
     else if (ui.view === 'sim'){ const s = store.sim, n = s.ids[s.i]; s.ans[n] = t.dataset.opt; save(); renderSim(); }
@@ -649,6 +657,7 @@ app.addEventListener('click', e => {
     case 'home': go({ view: 'home', rnd: ui.rnd ?? 20 }); break;
     case 'topic-start': { const c = t.dataset.topic; startPractice('Latihan · ' + TNAME[c], Q.filter(q => q.t === c).map(q => q.n), 'home'); break; }
     case 'rnd-start': { const all = shuffle(Q.map(q => q.n)); startPractice('Soal acak', ui.rnd ? all.slice(0, ui.rnd) : all); break; }
+    case 'unr-start': { const ids = shuffle(unansweredIds()); startPractice('Soal yang belum dijawab', unrN ? ids.slice(0, unrN) : ids); break; }
     case 'rev-start': startPractice('Ulang yang salah & ragu', shuffle(reviewIds())); break;
     case 'prev': if (ui.i > 0){ ui.i--; render(); window.scrollTo(0, 0); } break;
     case 'next': if (ui.i < ui.ids.length - 1){ ui.i++; render(); window.scrollTo(0, 0); } break;
