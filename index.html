@@ -245,7 +245,7 @@ const byN = new Map(Q.map(q => [q.n, q]));
 const TOPICS = DATA.topics;
 const TNAME = Object.fromEntries(TOPICS);
 const CARDS = DATA.cards.map((c, i) => Object.assign({ id: i }, c));
-const SIM_N = 75, SIM_MIN = 90;
+const SIM_N = 100, SIM_MIN = 120;
 const app = document.getElementById('app');
 
 /* ---------- storage ---------- */
@@ -266,7 +266,7 @@ function save(){ try { localStorage.setItem(SKEY, JSON.stringify(store)); } catc
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const U = l => l.toUpperCase();
 function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-function fmtTime(ms){ ms = Math.max(0, ms); const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+function fmtTime(ms){ ms = Math.max(0, ms); const s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = String(s % 60).padStart(2, '0'); return h ? h + ':' + String(m).padStart(2, '0') + ':' + ss : String(m).padStart(2, '0') + ':' + ss; }
 function pct(a, b){ return b ? Math.round(a / b * 100) : 0; }
 function accClass(p){ return p >= 75 ? 'hi' : p >= 50 ? 'mid' : 'lo'; }
 function parseW(w){

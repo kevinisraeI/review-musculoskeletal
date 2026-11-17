@@ -5,7 +5,7 @@ Bank soal latihan Modul Muskuloskeletal FK UISU: 267 soal unik dengan kunci yang
 Isi:
 - **Latihan per topik**: 11 topik, dari anatomi sampai farmakologi muskuloskeletal.
 - **Soal acak**: 10, 20, 50, atau semua soal, dengan pembahasan langsung setelah menjawab.
-- **Simulasi ujian**: 75 soal dalam 90 menit, diambil sesuai proporsi topik, dengan timer, navigasi nomor soal, dan tanda ragu.
+- **Simulasi ujian**: 100 soal dalam 120 menit (2 jam), diambil sesuai proporsi topik, dengan timer, navigasi nomor soal, dan tanda ragu.
 - **Ulang yang salah & ragu**: mengerjakan ulang soal yang pernah salah atau ditandai ragu.
 - **Flashcard**: 251 kartu fakta penting dari PPT, dengan tanda "sudah hafal".
 
