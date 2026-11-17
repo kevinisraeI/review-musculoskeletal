@@ -13,6 +13,8 @@ Urutan pilihan A–E diacak setiap sesi, jadi yang dihafal isinya, bukan hurufny
 
 Ada juga halaman **Materi Muskuloskeletal** di `/materi/`: ringkasan 11 topik dari 16 PPT kuliah, dengan kotak "Intinya", gambar interaktif (sarkomer, siklus cross bridge, frekuensi rangsang, T-score, IMT, Kellgren–Lawrence, ACR/EULAR 2010, Gustilo–Anderson, Salter–Harris), jembatan keledai, jebakan soal, dan tab Hafalan. Setiap topik punya tombol yang langsung membuka latihan soal dan kartu topik itu di bank soal. Bagian yang tidak ada di PPT ditandai "buku".
 
+Di halaman Materi juga ada tab **Prediksi**: 100 soal prediksi ujian di luar bank soal, dibuat dari isi PPT yang belum pernah ditanya dan variasi pola soal yang sering keluar. Bisa dikerjakan per topik dengan pembahasan langsung, atau sebagai ujian 100 soal dalam 120 menit. Ini prediksi, bukan bocoran soal.
+
 Buka websitenya:
 - Bank soal: https://kevinisraei.github.io/review-musculoskeletal/
 - Materi: https://kevinisraei.github.io/review-musculoskeletal/materi/
